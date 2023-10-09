@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 META = {
     "name":"catthy",
-    "version":"0.0.1",
+    "version":"0.0.2",
     "description":"Functional Python library.",
     "long_description":"Functional Python library for playing around with functors.",
     "long_description_content_type":"text/markdown",
