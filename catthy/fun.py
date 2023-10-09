@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod, abstractclassmethod
 
 A = TypeVar('A')
 B = TypeVar('B')
+C = TypeVar('C')
 
 K = TypeVar('K')
 V = TypeVar('V')
@@ -72,3 +73,29 @@ class ATuple(FTuple[A], DefaultApplicative): ...
 class ASet(FSet[A], DefaultApplicative): ...
 
 class ADeque(FDeque[A], DefaultApplicative): ...
+
+# =
+
+from functools import _initial_missing, wraps, reduce as foldl
+from typing import Any, Iterable
+
+def reverse(binary_operation: Callable[[A,B], Any]) -> Callable[[B,A], Any]:
+    return wraps(binary_operation)(lambda a, b: binary_operation(b, a))
+
+# foldr = foldl(reverse(binary_operation), sequence, initial)
+def foldr(binary_operation: Callable[[A,B], B], sequence: Iterable, initial=_initial_missing) -> B:
+    it = iter(sequence)
+
+    if initial is _initial_missing:
+        try:
+            value = next(it)
+        except StopIteration:
+            raise TypeError(
+                "foldr() of empty iterable with no initial value") from None
+    else:
+        value = initial
+
+    for element in it:
+        value = binary_operation(element, value)
+
+    return value
