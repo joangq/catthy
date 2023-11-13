@@ -18,4 +18,4 @@ META = {
 }
 
 if __name__ == "__main__":
-    setup(**META)
+    setup(**META, packages=find_packages())
